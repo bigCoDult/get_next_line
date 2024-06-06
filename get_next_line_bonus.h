@@ -14,16 +14,25 @@
 # define GET_NEXT_LINE_BONUS_H
 
 # include <unistd.h>
-# include <unistd.h>
 # include <stdlib.h>
+# include <stddef.h>
+
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
 
 typedef struct s_etc
 {
-	int						n;
-	unsigned int			u;
-	char					*string;
-	long long unsigned int	*ads;
+	ssize_t		read_return;
+	size_t		buffer_size;
+	char		*buffer;
+	char		*single_line;
+	ssize_t		i;
+
+
 }	t_etc;
 char	*get_next_line_bonus(int fd);
+char	*set_single_line(t_etc *etc);
 
 #endif /* GET_NEXT_LINE_BONUS_H */
