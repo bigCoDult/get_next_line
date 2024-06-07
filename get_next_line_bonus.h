@@ -16,7 +16,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stddef.h>
-
+# include <stdbool.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
@@ -28,11 +28,13 @@ typedef struct s_etc
 	size_t		buffer_size;
 	char		*buffer;
 	char		*single_line;
-	ssize_t		i;
-
-
+	char		*before_line;
+	size_t		index_1;
+	size_t		index_2;
+	size_t		index_3;
+	bool		is_there_newline;
 }	t_etc;
 char	*get_next_line_bonus(int fd);
-char	*set_single_line(t_etc *etc);
+char	*set_single_line(t_etc *etc, char *static_line);
 
 #endif /* GET_NEXT_LINE_BONUS_H */

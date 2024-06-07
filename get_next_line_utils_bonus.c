@@ -22,20 +22,24 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *str1, char *str2)
 {
-	char	*joined;
-	size_t	i;
+	char	*joined_str;
+	size_t	index_1;
+	size_t	index_2;
+	size_t	index_3;
 
-	joined = (char *)malloc((ft_strlen(s1) + ft_strlen(s2) + 1)  * sizeof(char));
-	if (joined == NULL)
+	joined_str = (char *)malloc((ft_strlen(str1) + ft_strlen(str2) + 1)  * sizeof(char));
+	if (joined_str == NULL)
 		return (NULL);
-	i = 0;
-	while (*s1)
-		joined[i++] = *s1++;
-	while (*s2)
-		joined[i++] = *s2++;
-	return (joined);
+	index_1 = 0;
+	index_2 = 0;
+	index_3 = 0;
+	while (str1[index_1])
+		joined_str[index_3] = str1[index_1++];
+	while (str2[index_2])
+		joined_str[index_3] = str2[index_2++];
+	return (joined_str);
 }
 
 
