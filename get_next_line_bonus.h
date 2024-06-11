@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: sanbaek <sanbaek@student.42gyeongsan.kr    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/18 09:26:30 by sanbaek           #+#    #+#             */
-/*   Updated: 2024/05/18 09:26:30 by sanbaek          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef GET_NEXT_LINE_BONUS_H
 # define GET_NEXT_LINE_BONUS_H
 
@@ -19,13 +7,12 @@
 # include <stdbool.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
+#  define BUFFER_SIZE 1
 # endif
 
 typedef struct s_etc
 {
 	ssize_t		read_return;
-	size_t		buffer_size;
 	char		*buffer;
 	char		*single_line;
 	char		*before_line;
@@ -34,7 +21,10 @@ typedef struct s_etc
 	size_t		index_3;
 	bool		is_there_newline;
 }	t_etc;
+
 char	*get_next_line_bonus(int fd);
-char	*set_single_line(t_etc *etc, char *static_line);
+size_t	ft_strlen(char *s);
+char	*ft_strjoin(char *str1, char *str2);
+char	*ft_memmove(char *dest, char *src, size_t count);
 
 #endif /* GET_NEXT_LINE_BONUS_H */

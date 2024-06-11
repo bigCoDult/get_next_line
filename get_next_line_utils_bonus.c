@@ -1,25 +1,13 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: sanbaek <sanbaek@student.42gyeongsan.kr    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/18 09:27:45 by sanbaek           #+#    #+#             */
-/*   Updated: 2024/05/18 09:27:45 by sanbaek          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "get_next_line_bonus.h"
 
-size_t	ft_strlen(const char *s)
+size_t	ft_strlen(char *s)
 {
-	size_t	i;
+	size_t	length;
 
-	i = 0;
-	while (s[i] != '\0')
-		i++;
-	return (i);
+	length = 0;
+	while (s && s[length] != '\0')
+		length++;
+	return (length);
 }
 
 char	*ft_strjoin(char *str1, char *str2)
@@ -36,20 +24,31 @@ char	*ft_strjoin(char *str1, char *str2)
 	index_2 = 0;
 	index_3 = 0;
 	while (str1[index_1])
-		joined_str[index_3] = str1[index_1++];
+		joined_str[index_3++] = str1[index_1++];
 	while (str2[index_2])
-		joined_str[index_3] = str2[index_2++];
+		joined_str[index_3++] = str2[index_2++];
 	return (joined_str);
 }
 
+// char	*ft_memmove(char *dest, char *src, size_t count)
+// {
+// 	unsigned char	*dest_tmp;
+// 	unsigned char	*src_tmp;
+// 	size_t			index;
 
-
-
-
-
-
-
-
-
-
-
+// 	index = 0;
+// 	dest_tmp = (unsigned char *)dest;
+// 	src_tmp = (unsigned char *)src;
+// 	if (dest_tmp > src_tmp)
+// 	{
+// 		while (count--)
+// 			dest_tmp[count] = src_tmp[count];
+// 	}
+// 	else
+// 		while (count--)
+// 		{
+// 			dest_tmp[index] = src_tmp[index];
+// 			index++;
+// 		}
+// 	return (dest);
+// }
