@@ -10,7 +10,7 @@ int	main(void)
 	i = 1;	
 	fd1 = open("file1.txt", O_RDONLY);
 	
-	while (i <= 10)
+	while (i <= 3)
 	{
 		printf("%d", i);
 		printf("\n");

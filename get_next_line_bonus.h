@@ -7,7 +7,7 @@
 # include <stdbool.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
+#  define BUFFER_SIZE 5
 # endif
 
 typedef struct s_etc
@@ -16,9 +16,9 @@ typedef struct s_etc
 	char		*buffer;
 	char		*single_line;
 	char		*before_line;
-	size_t		index_1;
-	size_t		index_2;
-	size_t		index_3;
+	size_t		i_newline;
+	size_t		i_find_lf;
+	size_t		i_buffer;
 	bool		is_there_newline;
 }	t_etc;
 

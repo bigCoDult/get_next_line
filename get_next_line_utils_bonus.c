@@ -13,20 +13,20 @@ size_t	ft_strlen(char *s)
 char	*ft_strjoin(char *str1, char *str2)
 {
 	char	*joined_str;
-	size_t	index_1;
-	size_t	index_2;
-	size_t	index_3;
+	size_t	in1_index;
+	size_t	in2_index;
+	size_t	out_index;
 
 	joined_str = (char *)malloc((ft_strlen(str1) + ft_strlen(str2) + 1)  * sizeof(char));
 	if (joined_str == NULL)
 		return (NULL);
-	index_1 = 0;
-	index_2 = 0;
-	index_3 = 0;
-	while (str1[index_1])
-		joined_str[index_3++] = str1[index_1++];
-	while (str2[index_2])
-		joined_str[index_3++] = str2[index_2++];
+	in1_index = 0;
+	in2_index = 0;
+	out_index = 0;
+	while (str1[in1_index])
+		joined_str[out_index++] = str1[in1_index++];
+	while (str2[in2_index])
+		joined_str[out_index++] = str2[in2_index++];
 	return (joined_str);
 }
 
