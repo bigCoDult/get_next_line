@@ -15,10 +15,8 @@ typedef struct s_etc
 	bool		is_there_newline;
 	ssize_t		read_return;
 	char		*buffer;
-	char		*single_line;
-	char		*before_line;
+	char 		*tmp_line;
 	size_t		i_tmp_line;
-	size_t		i_find_lf;
 	size_t		i_buffer;
 	size_t		i_repeat;
 }	t_etc;

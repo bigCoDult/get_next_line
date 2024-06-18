@@ -4,7 +4,6 @@
 char	*get_next_line_bonus(int fd)
 {
 	t_etc		*etc;
-	char		*tmp_line;
 	// char		*return_line;
 	static char	*static_line;
 	
@@ -81,14 +80,14 @@ char	*get_next_line_bonus(int fd)
 	
 	
 
-	tmp_line = "";
-	tmp_line = ft_join_till_c(tmp_line, static_line, '\0');
-	tmp_line[etc->i_tmp_line] = '\0';
+	etc->tmp_line = "";
+	etc->tmp_line = ft_join_till_c(etc->tmp_line, static_line, '\0');
+	etc->tmp_line[etc->i_tmp_line] = '\0';
 	// return_line = "";
-	// return_line = ft_join_till_c(return_line, tmp_line, '\0');
-	// free(tmp_line);
+	// return_line = ft_join_till_c(return_line, etc->tmp_line, '\0');
+	// free(etc->tmp_line);
 	free(etc->buffer);
 	free(etc);
-	return (tmp_line);
+	return (etc->tmp_line);
 	// return (return_line);
 }
