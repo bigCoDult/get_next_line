@@ -1,5 +1,0 @@
-abcabcabc
-defdefdef
-
-ABCABCABC
-DEFDEFDEF

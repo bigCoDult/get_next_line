@@ -12,19 +12,20 @@
 
 typedef struct s_etc
 {
+	bool		is_there_newline;
 	ssize_t		read_return;
 	char		*buffer;
 	char		*single_line;
 	char		*before_line;
-	size_t		i_newline;
+	size_t		i_tmp_line;
 	size_t		i_find_lf;
 	size_t		i_buffer;
-	bool		is_there_newline;
+	size_t		i_repeat;
 }	t_etc;
 
 char	*get_next_line_bonus(int fd);
 size_t	ft_strlen(char *s);
-char	*ft_strjoin(char *str1, char *str2);
-char	*ft_memmove(char *dest, char *src, size_t count);
+char	*ft_join_till_c(char *s_front, char *s_back, char c);
+// char	*ft_strjoin(char *s_front, char *s_back);
 
 #endif /* GET_NEXT_LINE_BONUS_H */
