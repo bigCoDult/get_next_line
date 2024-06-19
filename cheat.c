@@ -1,111 +1,84 @@
+
 #include <stdio.h>
 #include "get_next_line_bonus.h"
 
-char	*get_next_line_bonus(int fd) {
-    t_etc *etc;
-    char *tmp_line;
-    static char *static_line = NULL;
+char *get_next_line_bonus(int fd) {
+    static t_etc *etc = NULL;
+    char *buffer;
 
-    if (fd < 0 || BUFFER_SIZE <= 0) {
-        return (NULL);
-    }
+    if (fd < 0 || BUFFER_SIZE <= 0) return "fd or BUFFER_SIZE is invalid";
 
-    etc = malloc(sizeof(t_etc));
     if (etc == NULL) {
-        return (NULL);
-    }
-
-    etc->buffer = malloc(BUFFER_SIZE + 1);
-    if (etc->buffer == NULL) {
-        free(etc);
-        return (NULL);
-    }
-
-    if (static_line == NULL) {
-        static_line = malloc(1); // Initial allocation for static_line
-        if (static_line == NULL) {
-            free(etc->buffer);
+        etc = malloc(sizeof(t_etc));
+        if (etc == NULL) return "malloc etc fail";
+        etc->static_line = malloc(1);  // Initialize as empty string
+        if (etc->static_line == NULL) {
             free(etc);
-            return (NULL);
+            return "malloc static_line fail";
         }
-        static_line[0] = '\0'; // Initialize to an empty string
+        etc->static_line[0] = '\0';
+    }
+
+    buffer = malloc(BUFFER_SIZE + 1);
+    if (buffer == NULL) {
+        free(etc);
+        return "malloc buffer fail";
     }
 
     etc->is_there_newline = false;
+    etc->i_repeat = 0;
 
     while (!etc->is_there_newline) {
-        etc->read_return = read(fd, etc->buffer, BUFFER_SIZE);
-        if (etc->read_return <= 0) {
-            free(etc->buffer);
-            free(etc);
-            return (NULL); // End of file or read error
+        etc->read_return = read(fd, buffer, BUFFER_SIZE);
+        if (etc->read_return == 0) break;
+        if (etc->read_return == -1) {
+            free(buffer);
+            return "read fail";
         }
+        buffer[etc->read_return] = '\0';
 
-        etc->buffer[etc->read_return] = '\0';
+        char *new_static_line = ft_join_till_c(etc->static_line, buffer, '\0');
+        free(etc->static_line); // Free old static_line
+        etc->static_line = new_static_line;
 
-
-
-
-
-
-
-
-
-
-        char *temp = ft_join_till_c(static_line, etc->buffer, '\0'); // Join without looking for a specific char
-        free(static_line); // Free the old static_line
-        static_line = temp;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        for (int i = 0; etc->buffer[i] != '\0'; i++) {
-            if (etc->buffer[i] == '\n') {
+        size_t i = 0;
+        while (buffer[i] != '\0') {
+            if (buffer[i] == '\n') {
                 etc->is_there_newline = true;
                 break;
             }
+            i++;
         }
     }
 
-    // Find the newline character in static_line to determine where to cut the line
+    free(buffer);
+
+    // Manually find the end of the line or string
     size_t line_length = 0;
-    while (static_line[line_length] != '\n' && static_line[line_length] != '\0') {
+    while (etc->static_line[line_length] != '\n' && etc->static_line[line_length] != '\0') {
         line_length++;
     }
-    if (static_line[line_length] == '\n') {
-        line_length++; // Include the newline character
+    if (etc->static_line[line_length] == '\n') line_length++;
+
+    // Copy the line to return
+    char *return_line = malloc(line_length + 1);
+    if (return_line == NULL) return "malloc return_line fail";
+    size_t j = 0;
+    while (j < line_length) {
+        return_line[j] = etc->static_line[j];
+        j++;
     }
+    return_line[line_length] = '\0';
 
-    tmp_line = malloc(line_length + 1); // Allocate memory for tmp_line
-    if (tmp_line == NULL) {
-        free(etc->buffer);
-        free(etc);
-        return (NULL);
+    // Shift the remaining characters in static_line to the start
+    size_t start = 0;
+    size_t k = line_length;
+    while (etc->static_line[k] != '\0') {
+        etc->static_line[start] = etc->static_line[k];
+        start++;
+        k++;
     }
+    etc->static_line[start] = '\0';
 
-    for (size_t i = 0; i < line_length; i++) {
-        tmp_line[i] = static_line[i]; // Copy the line from static_line to tmp_line
-    }
-    tmp_line[line_length] = '\0'; // Null-terminate tmp_line
-
-    // Prepare static_line for the next call
-    char *new_start = ft_join_till_c(static_line + line_length, "", '\0'); // Create the new static_line from the remainder
-    free(static_line);
-    static_line = new_start;
-
-    free(etc->buffer);
-    free(etc);
-    return tmp_line; // Return the line extracted
+    return return_line;
 }
