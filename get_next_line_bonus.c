@@ -1,106 +1,80 @@
-#include <stdio.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sanbaek <sanbaek@student.42gyeongsan.kr    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/21 12:00:00 by sanbaek           #+#    #+#             */
+/*   Updated: 2024/06/20 19:21:45 by sanbaek          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line_bonus.h"
+
+void	free_etc(t_etc *etc)
+{
+	if (etc->st_s != NULL)
+		free(etc->st_s);
+	if (etc->buf != NULL)
+		free(etc->buf);
+	free(etc);
+}
+
+void	check_newline(t_etc *etc)
+{
+	etc->i_buffer = 0;
+	while (etc->buf[etc->i_buffer] != '\0')
+	{
+		if (etc->buf[etc->i_buffer] == '\n')
+		{
+			etc->is_there_newline = true;
+			break ;
+		}
+		etc->i_buffer++;
+	}
+}
+
+static char	*initialize_etc(t_etc **etc)
+{
+	*etc = (t_etc *)malloc(sizeof(t_etc));
+	if (*etc == NULL)
+		return (NULL);
+	(*etc)->st_s = (char *)malloc(sizeof(char));
+	if ((*etc)->st_s == NULL)
+	{
+		free(*etc);
+		return (NULL);
+	}
+	(*etc)->st_s[0] = '\0';
+	(*etc)->is_there_newline = false;
+	(*etc)->i_st_s = 0;
+	(*etc)->i_tmp_s = 0;
+	(*etc)->i_buffer = 0;
+	(*etc)->i_repeat = 0;
+	return ((*etc)->st_s);
+}
 
 char	*get_next_line_bonus(int fd)
 {
 	static t_etc	*etc;
-	char			*buffer;
-	
+
 	if (fd < 0 || BUFFER_SIZE <= 0)
-		return ("fd or BUFFER_SIZE is invalid");
-	if (etc == NULL)
+		return (NULL);
+	if (etc == NULL && initialize_etc(&etc) == NULL)
+		return (NULL);
+	etc->buf = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (etc->buf == NULL)
 	{
-		etc = (t_etc *)malloc(1 * sizeof(t_etc));
-		if (etc == NULL)
-			return ("malloc etc fail");
-		etc->static_line = (char *)malloc(1 * sizeof(char));
-		if (etc->static_line == NULL) 
-		{
-			free(etc);
-			return ("malloc static_line fail");
-		}
-		etc->static_line[0] = '\0';
-		etc->is_there_newline = false;
-		etc->i_static_line = 0;
-		etc->i_tmp_line = 0;
-		etc->i_buffer = 0;
-		etc->i_repeat = 0;
+		free_etc(etc);
+		return (NULL);
 	}
-
-	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (buffer == NULL)
-	{
-		free(etc->static_line);
-		free(etc);
-		return ("malloc buffer fail");
-	}
-
-	etc->is_there_newline = false;
-	etc->i_repeat = 0;
-	while (etc->is_there_newline == false)
-	{
-		etc->i_repeat++;
-		etc->read_return = read(fd, buffer, BUFFER_SIZE);
-		if (etc->read_return == 0)
-			break;
-		if (etc->read_return == -1)
-		{
-			free(buffer);
-			free(etc->static_line);
-			free(etc);
-			return ("read fail");
-		}
-		buffer[etc->read_return] = '\0';
-
-		printf("buffer %zu		: \"%s\"\n", etc->i_repeat, buffer);	
-		printf("static_line before join	: \"%s\"\n", etc->static_line);	
-		char *new_static_line = ft_join_till_c(etc->static_line, buffer, '\0');
-		if (new_static_line == NULL)
-		{
-			free(buffer);
-			free(etc->static_line);
-			free(etc);
-			return ("static_line is NULL");
-		}
-		free(etc->static_line);
-		etc->static_line = new_static_line;
-
-		printf("static_line after join	: \"%s\"\n", etc->static_line);	
-		printf("-----------------------------------\n");
-		etc->i_buffer = 0;
-		while (buffer[etc->i_buffer] != '\0')
-		{
-			if (buffer[etc->i_buffer] == '\n')
-			{
-				etc->is_there_newline = true;
-				break;
-			}
-			etc->i_buffer++;
-		}
-	}
-
-	free(buffer);
-
-	while (etc->static_line[etc->i_tmp_line] != '\0' && etc->static_line[etc->i_tmp_line] != '\n')
-		etc->i_tmp_line++;
-	if (etc->static_line[etc->i_tmp_line] == '\n')
-		etc->i_tmp_line++;
-	etc->tmp_line = (char *)malloc((etc->i_tmp_line + 1) * sizeof(char));
-	if (etc->tmp_line == NULL)
-	{
-		free(etc->static_line);
-		free(etc);
-		return ("malloc tmp_line fail");
-	}
-	etc->tmp_line[0] = '\0';
-	etc->i_tmp_line = 0;
-	while (etc->static_line[etc->i_static_line] != '\0' && etc->static_line[etc->i_static_line] != '\n')
-		etc->tmp_line[etc->i_tmp_line++] = etc->static_line[etc->i_static_line++];
-	if (etc->static_line[etc->i_static_line] == '\n')
-	{
-		etc->tmp_line[etc->i_tmp_line++] = '\n';
-		etc->i_static_line++;
-	}
-	etc->tmp_line[etc->i_tmp_line] = '\0';
-	return (etc->tmp_line);
+	process_buffer(etc, fd);
+	free(etc->buf);
+	etc->buf = NULL;
+	while (etc->st_s[etc->i_tmp_s] != '\0' && etc->st_s[etc->i_tmp_s] != '\n')
+		etc->i_tmp_s++;
+	if (etc->st_s[etc->i_tmp_s] == '\n')
+		etc->i_tmp_s++;
+	return (allocate_tmp_line(etc));
 }
