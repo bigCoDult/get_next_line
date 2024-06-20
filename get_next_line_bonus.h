@@ -26,5 +26,6 @@ typedef struct s_etc
 char	*get_next_line_bonus(int fd);
 size_t	ft_strlen(char *s);
 char	*ft_join_till_c(char *s_front, char *s_back, char c);
+void free_static_resources();  // Declaration of the cleanup function
 
 #endif /* GET_NEXT_LINE_BONUS_H */
