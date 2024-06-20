@@ -14,13 +14,13 @@ typedef struct s_etc
 {
 	bool		is_there_newline;
 	ssize_t		read_return;
+	char		*static_line;
 	char		*buffer;
 	char 		*tmp_line;
 	size_t		i_static_line;
 	size_t		i_tmp_line;
 	size_t		i_buffer;
 	size_t		i_repeat;
-	char		*static_line;
 }	t_etc;
 
 char	*get_next_line_bonus(int fd);
