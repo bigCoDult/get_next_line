@@ -6,13 +6,15 @@
 /*   By: sanbaek <sanbaek@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:04:25 by sanbaek           #+#    #+#             */
-/*   Updated: 2024/06/21 17:43:25 by sanbaek          ###   ########.fr       */
+/*   Updated: 2024/06/21 18:13:44 by sanbaek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <fcntl.h>
 #include "get_next_line_bonus.h"
+
+char	*get_next_line_bonus(int fd);
 
 int	main(void)
 {

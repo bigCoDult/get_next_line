@@ -6,7 +6,7 @@
 /*   By: sanbaek <sanbaek@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:02:56 by sanbaek           #+#    #+#             */
-/*   Updated: 2024/06/21 17:20:44 by sanbaek          ###   ########.fr       */
+/*   Updated: 2024/06/21 18:13:31 by sanbaek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,12 @@ typedef struct s_etc
 }	t_etc;
 
 char	*get_next_line_bonus(int fd);
-char	*join_lines(t_etc *etc);
-char	*allocate_tmp_line(t_etc *etc);
-void	check_newline(t_etc *etc);
-void	process_buffer(t_etc *etc, int fd);
 void	free_etc(t_etc *etc);
+void	check_newline(t_etc *etc);
+char	*allocate_tmp_line(t_etc *etc);
+void	process_buffer(t_etc *etc, int fd);
+char	*join_lines(t_etc *etc);
 char	*ft_join_till_c(char *s1, char *s2, char c);
+size_t	ft_strlen(char *s);
 
 #endif /* GET_NEXT_LINE_BONUS_H */

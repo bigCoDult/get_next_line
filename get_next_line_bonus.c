@@ -6,15 +6,13 @@
 /*   By: sanbaek <sanbaek@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:01:47 by sanbaek           #+#    #+#             */
-/*   Updated: 2024/06/21 17:41:12 by sanbaek          ###   ########.fr       */
+/*   Updated: 2024/06/21 18:12:54 by sanbaek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line_bonus.h"
 #include <stdio.h>
+#include "get_next_line_bonus.h"
 
-void		check_newline(t_etc *etc);
-void		free_etc(t_etc *etc);
 static char	*initialize_etc(t_etc *etc);
 
 char	*get_next_line_bonus(int fd)
