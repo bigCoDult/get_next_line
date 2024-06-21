@@ -6,7 +6,7 @@
 /*   By: sanbaek <sanbaek@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:02:45 by sanbaek           #+#    #+#             */
-/*   Updated: 2024/06/21 18:12:21 by sanbaek          ###   ########.fr       */
+/*   Updated: 2024/06/21 18:23:05 by sanbaek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ char	*join_lines(t_etc *etc)
 	}
 	free(etc->st_s);
 	etc->st_s = new_static_line;
+	// free(new_static_line);
 	return (etc->st_s);
 }
 
