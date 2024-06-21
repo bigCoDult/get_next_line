@@ -6,7 +6,7 @@
 /*   By: sanbaek <sanbaek@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 21:04:42 by sanbaek           #+#    #+#             */
-/*   Updated: 2024/06/21 21:11:25 by sanbaek          ###   ########.fr       */
+/*   Updated: 2024/06/21 21:14:50 by sanbaek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ size_t	process_buffer(t_etc *etc, int fd)
 		if (etc->read_return == -1)
 		{
 			free_etc(etc);
-			return (1);
+			return (0);
 		}
 		etc->buf[etc->read_return] = '\0';
 		// printf("buffer %zu: \"%s\"\n", etc->i_repeat, etc->buf);
 		// printf("st_s before join: \"%s\"\n", etc->st_s);
 		if (join_lines(etc) == NULL)
-			return (1);
+			return (0);
 		// printf("st_s after join: \"%s\"\n", etc->st_s);
 		// printf("-----------------------------------\n");
 		check_newline(etc);

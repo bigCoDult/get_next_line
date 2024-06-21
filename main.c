@@ -6,7 +6,7 @@
 /*   By: sanbaek <sanbaek@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:04:25 by sanbaek           #+#    #+#             */
-/*   Updated: 2024/06/21 21:10:29 by sanbaek          ###   ########.fr       */
+/*   Updated: 2024/06/21 21:14:20 by sanbaek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(void)
 
 	i = 1;
 	fd1 = open("file2.txt", O_RDONLY);
-	while (i <= 10)
+	while (1)
 	{
 		printf("[get_next_line %d]\n", i);
 		line = get_next_line(fd1);
