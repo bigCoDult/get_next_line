@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_bonus_utils.c                        :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sanbaek <sanbaek@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:02:45 by sanbaek           #+#    #+#             */
-/*   Updated: 2024/06/21 18:23:05 by sanbaek          ###   ########.fr       */
+/*   Updated: 2024/06/21 20:02:54 by sanbaek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line_bonus.h"
+#include "get_next_line.h"
 
 char	*allocate_tmp_line(t_etc *etc)
 {
@@ -38,7 +38,7 @@ char	*allocate_tmp_line(t_etc *etc)
 	return (etc->tmp_s);
 }
 
-void	process_buffer(t_etc *etc, int fd)
+int	process_buffer(t_etc *etc, int fd)
 {
 	etc->is_there_newline = false;
 	etc->i_repeat = 0;
@@ -47,21 +47,22 @@ void	process_buffer(t_etc *etc, int fd)
 		etc->i_repeat++;
 		etc->read_return = read(fd, etc->buf, BUFFER_SIZE);
 		if (etc->read_return == 0)
-			break ;
+			return (0);
 		if (etc->read_return == -1)
 		{
 			free_etc(etc);
-			return ;
+			return (1);
 		}
 		etc->buf[etc->read_return] = '\0';
 		// printf("buffer %zu: \"%s\"\n", etc->i_repeat, etc->buf);
 		// printf("st_s before join: \"%s\"\n", etc->st_s);
 		if (join_lines(etc) == NULL)
-			return ;
+			return (1);
 		// printf("st_s after join: \"%s\"\n", etc->st_s);
 		// printf("-----------------------------------\n");
 		check_newline(etc);
 	}
+	return (1);
 }
 
 char	*join_lines(t_etc *etc)
@@ -96,13 +97,9 @@ char	*ft_join_till_c(char *s1, char *s2, char c)
 	if (out_s == NULL)
 		return (NULL);
 	while (s1 && s1[i_in_s1] != c)
-	{
 		out_s[i_out++] = s1[i_in_s1++];
-	}
 	while (s2 && s2[i_in_s2] != c)
-	{
 		out_s[i_out++] = s2[i_in_s2++];
-	}
 	out_s[i_out] = '\0';
 	return (out_s);
 }

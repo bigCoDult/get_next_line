@@ -6,15 +6,15 @@
 /*   By: sanbaek <sanbaek@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:04:25 by sanbaek           #+#    #+#             */
-/*   Updated: 2024/06/21 19:27:01 by sanbaek          ###   ########.fr       */
+/*   Updated: 2024/06/21 19:54:54 by sanbaek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <fcntl.h>
-#include "get_next_line_bonus.h"
+#include "get_next_line.h"
 
-char	*get_next_line_bonus(int fd);
+char	*get_next_line(int fd);
 
 int	main(void)
 {
@@ -27,7 +27,7 @@ int	main(void)
 	while (i <= 10)
 	{
 		printf("[get_next_line %d]\n", i);
-		line = get_next_line_bonus(fd1);
+		line = get_next_line(fd1);
 		if (line == NULL)
 		{
 			free(line);

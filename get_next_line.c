@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sanbaek <sanbaek@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 16:01:47 by sanbaek           #+#    #+#             */
-/*   Updated: 2024/06/21 18:12:54 by sanbaek          ###   ########.fr       */
+/*   Updated: 2024/06/21 20:04:39 by sanbaek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
-#include "get_next_line_bonus.h"
+#include "get_next_line.h"
 
 static char	*initialize_etc(t_etc *etc);
 
-char	*get_next_line_bonus(int fd)
+char	*get_next_line(int fd)
 {
 	static t_etc	*etc = NULL;
 
@@ -36,7 +36,8 @@ char	*get_next_line_bonus(int fd)
 		free_etc(etc);
 		return (NULL);
 	}
-	process_buffer(etc, fd);
+	if (!process_buffer(etc, fd) && etc->st_s[etc->i_st_s] == '\0')
+		return (NULL);
 	free(etc->buf);
 	etc->buf = NULL;
 	while (etc->st_s[etc->i_tmp_s] != '\0' && etc->st_s[etc->i_tmp_s++] != '\n')
@@ -48,9 +49,7 @@ static char	*initialize_etc(t_etc *etc)
 {
 	etc->st_s = (char *)malloc(sizeof(char));
 	if (etc->st_s == NULL)
-	{
 		return (NULL);
-	}
 	etc->st_s[0] = '\0';
 	etc->is_there_newline = false;
 	etc->tmp_s = NULL;
