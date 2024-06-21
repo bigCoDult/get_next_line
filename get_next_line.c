@@ -5,30 +5,26 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sanbaek <sanbaek@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/21 16:01:47 by sanbaek           #+#    #+#             */
-/*   Updated: 2024/06/21 20:04:39 by sanbaek          ###   ########.fr       */
+/*   Created: 2024/06/21 21:04:48 by sanbaek           #+#    #+#             */
+/*   Updated: 2024/06/21 21:09:31 by sanbaek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include "get_next_line.h"
 
-static char	*initialize_etc(t_etc *etc);
-
 char	*get_next_line(int fd)
 {
-	static t_etc	*etc = NULL;
+	static t_etc	*etc;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (etc == NULL)
 	{
-		etc = (t_etc *)malloc(sizeof(t_etc));
-		if (etc == NULL || initialize_etc(etc) == NULL)
-		{
-			free(etc);
+		etc = (t_etc *)malloc(1 * sizeof(t_etc));
+		if (etc == NULL)
 			return (NULL);
-		}
+		initialize_etc(etc);
 	}
 	etc->buf = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (etc->buf == NULL)
@@ -45,11 +41,11 @@ char	*get_next_line(int fd)
 	return (allocate_tmp_line(etc));
 }
 
-static char	*initialize_etc(t_etc *etc)
+void	initialize_etc(t_etc *etc)
 {
 	etc->st_s = (char *)malloc(sizeof(char));
 	if (etc->st_s == NULL)
-		return (NULL);
+		return ;
 	etc->st_s[0] = '\0';
 	etc->is_there_newline = false;
 	etc->tmp_s = NULL;
@@ -57,7 +53,7 @@ static char	*initialize_etc(t_etc *etc)
 	etc->i_tmp_s = 0;
 	etc->i_buf = 0;
 	etc->i_repeat = 0;
-	return (etc->st_s);
+	return ;
 }
 
 void	free_etc(t_etc *etc)

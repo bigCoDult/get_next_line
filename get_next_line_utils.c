@@ -5,46 +5,20 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sanbaek <sanbaek@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/21 16:02:45 by sanbaek           #+#    #+#             */
-/*   Updated: 2024/06/21 20:02:54 by sanbaek          ###   ########.fr       */
+/*   Created: 2024/06/21 21:04:42 by sanbaek           #+#    #+#             */
+/*   Updated: 2024/06/21 21:11:25 by sanbaek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*allocate_tmp_line(t_etc *etc)
-{
-	etc->tmp_s = (char *)malloc((etc->i_tmp_s + 1) * sizeof(char));
-	if (etc->tmp_s == NULL)
-	{
-		free_etc(etc);
-		return (NULL);
-	}
-	etc->tmp_s[0] = '\0';
-	etc->i_tmp_s = 0;
-	while (etc->st_s[etc->i_st_s] != '\0'
-		&& etc->st_s[etc->i_st_s] != '\n')
-	{
-		etc->tmp_s[etc->i_tmp_s] = etc->st_s[etc->i_st_s];
-		etc->i_tmp_s++;
-		etc->i_st_s++;
-	}
-	if (etc->st_s[etc->i_st_s] == '\n')
-	{
-		etc->tmp_s[etc->i_tmp_s++] = '\n';
-		etc->i_st_s++;
-	}
-	etc->tmp_s[etc->i_tmp_s] = '\0';
-	return (etc->tmp_s);
-}
-
-int	process_buffer(t_etc *etc, int fd)
+size_t	process_buffer(t_etc *etc, int fd)
 {
 	etc->is_there_newline = false;
-	etc->i_repeat = 0;
+	// etc->i_repeat = 0;
 	while (etc->is_there_newline == false)
 	{
-		etc->i_repeat++;
+		// etc->i_repeat++;
 		etc->read_return = read(fd, etc->buf, BUFFER_SIZE);
 		if (etc->read_return == 0)
 			return (0);
@@ -65,6 +39,27 @@ int	process_buffer(t_etc *etc, int fd)
 	return (1);
 }
 
+char	*allocate_tmp_line(t_etc *etc)
+{
+	etc->tmp_s = (char *)malloc((etc->i_tmp_s + 1) * sizeof(char));
+	if (etc->tmp_s == NULL)
+	{
+		free_etc(etc);
+		return (NULL);
+	}
+	etc->tmp_s[0] = '\0';
+	etc->i_tmp_s = 0;
+	while (etc->st_s[etc->i_st_s] != '\0' && etc->st_s[etc->i_st_s] != '\n')
+		etc->tmp_s[etc->i_tmp_s++] = etc->st_s[etc->i_st_s++];
+	if (etc->st_s[etc->i_st_s] == '\n')
+	{
+		etc->tmp_s[etc->i_tmp_s++] = '\n';
+		etc->i_st_s++;
+	}
+	etc->tmp_s[etc->i_tmp_s] = '\0';
+	return (etc->tmp_s);
+}
+
 char	*join_lines(t_etc *etc)
 {
 	char	*new_static_line;
@@ -77,7 +72,6 @@ char	*join_lines(t_etc *etc)
 	}
 	free(etc->st_s);
 	etc->st_s = new_static_line;
-	// free(new_static_line);
 	return (etc->st_s);
 }
 
