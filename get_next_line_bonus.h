@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sanbaek <sanbaek@student.42gyeongsan.kr    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/21 16:02:56 by sanbaek           #+#    #+#             */
+/*   Updated: 2024/06/21 17:20:44 by sanbaek          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef GET_NEXT_LINE_BONUS_H
 # define GET_NEXT_LINE_BONUS_H
 
@@ -8,7 +20,7 @@
 # include <stdio.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 5
+#  define BUFFER_SIZE 3
 # endif
 
 typedef struct s_etc
@@ -20,7 +32,7 @@ typedef struct s_etc
 	char	*tmp_s;
 	size_t	i_st_s;
 	size_t	i_tmp_s;
-	size_t	i_buffer;
+	size_t	i_buf;
 	size_t	i_repeat;
 }	t_etc;
 

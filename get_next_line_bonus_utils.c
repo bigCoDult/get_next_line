@@ -1,5 +1,53 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_bonus_utils.c                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sanbaek <sanbaek@student.42gyeongsan.kr    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/21 16:02:45 by sanbaek           #+#    #+#             */
+/*   Updated: 2024/06/21 17:22:22 by sanbaek          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line_bonus.h"
-#include <stdio.h>
+
+size_t	ft_strlen(char *s)
+{
+	size_t	length;
+
+	length = 0;
+	while (s && s[length] != '\0')
+		length++;
+	return (length);
+}
+
+char	*ft_join_till_c(char *s1, char *s2, char c)
+{
+	char	*out_s;
+	size_t	i_in_s1;
+	size_t	i_in_s2;
+	size_t	i_out;
+
+	i_in_s1 = 0;
+	i_in_s2 = 0;
+	i_out = 0;
+	if (s1 == NULL || s2 == NULL)
+		return (NULL);
+	out_s = (char *)malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	if (out_s == NULL)
+		return (NULL);
+	while (s1 && s1[i_in_s1] != c)
+	{
+		out_s[i_out++] = s1[i_in_s1++];
+	}
+	while (s2 && s2[i_in_s2] != c)
+	{
+		out_s[i_out++] = s2[i_in_s2++];
+	}
+	out_s[i_out] = '\0';
+	return (out_s);
+}
 
 char	*join_lines(t_etc *etc)
 {
@@ -46,61 +94,24 @@ void	process_buffer(t_etc *etc, int fd)
 {
 	etc->is_there_newline = false;
 	etc->i_repeat = 0;
-	while (!etc->is_there_newline)
+	while (etc->is_there_newline == false)
 	{
 		etc->i_repeat++;
 		etc->read_return = read(fd, etc->buf, BUFFER_SIZE);
 		if (etc->read_return == 0)
-			break;
+			break ;
 		if (etc->read_return == -1)
 		{
 			free_etc(etc);
-			return;
+			return ;
 		}
 		etc->buf[etc->read_return] = '\0';
-		printf("buffer %zu: \"%s\"\n", etc->i_repeat, etc->buf);
-		printf("st_s before join: \"%s\"\n", etc->st_s);
+		// printf("buffer %zu: \"%s\"\n", etc->i_repeat, etc->buf);
+		// printf("st_s before join: \"%s\"\n", etc->st_s);
 		if (join_lines(etc) == NULL)
-			return;
-		printf("st_s after join: \"%s\"\n", etc->st_s);
-		printf("-----------------------------------\n");
+			return ;
+		// printf("st_s after join: \"%s\"\n", etc->st_s);
+		// printf("-----------------------------------\n");
 		check_newline(etc);
 	}
-}
-
-size_t	ft_strlen(char *s)
-{
-	size_t	length;
-
-	length = 0;
-	while (s && s[length] != '\0')
-		length++;
-	return (length);
-}
-
-char	*ft_join_till_c(char *s1, char *s2, char c)
-{
-	char	*out_s;
-	size_t	i_in_s1;
-	size_t	i_in_s2;
-	size_t	i_out;
-
-	i_in_s1 = 0;
-	i_in_s2 = 0;
-	i_out = 0;
-	if (s1 == NULL || s2 == NULL)
-		return (NULL);
-	out_s = (char *)malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
-	if (out_s == NULL)
-		return (NULL);
-	while (s1 && s1[i_in_s1] != c)
-	{
-		out_s[i_out++] = s1[i_in_s1++];
-	}
-	while (s2 && s2[i_in_s2] != c)
-	{
-		out_s[i_out++] = s2[i_in_s2++];
-	}
-	out_s[i_out] = '\0';
-	return (out_s);
 }

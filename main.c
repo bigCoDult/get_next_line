@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sanbaek <sanbaek@student.42gyeongsan.kr    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/21 16:04:25 by sanbaek           #+#    #+#             */
+/*   Updated: 2024/06/21 17:43:25 by sanbaek          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h>
 #include <fcntl.h>
 #include "get_next_line_bonus.h"
@@ -12,15 +24,12 @@ int	main(void)
 	while (i <= 5)
 	{
 		printf("[get_next_line %d]\n", i);
-		printf("--------------------------------------------------------\n");
-		printf("return_line        : \"%s\"",
-			get_next_line_bonus(fd1));
+		printf("-----------------------------------------------------------\n");
+		printf("return_line        : \"%s\"", get_next_line_bonus(fd1));
 		printf("\n");
 		i++;
-		printf("-------------------------------------------------------------------------\n");
+		printf("-----------------------------\n");
 	}
 	close(fd1);
-	// if (etc != NULL) // Free etc if allocated
-	// 	free_etc(etc);
 	return (0);
 }
