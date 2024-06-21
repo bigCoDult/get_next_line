@@ -1,16 +1,5 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: sanbaek <sanbaek@student.42gyeongsan.kr    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/20 19:27:03 by sanbaek           #+#    #+#             */
-/*   Updated: 2024/06/20 19:27:06 by sanbaek          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "get_next_line_bonus.h"
+#include <stdio.h>
 
 void	free_etc(t_etc *etc)
 {
@@ -18,6 +7,8 @@ void	free_etc(t_etc *etc)
 		free(etc->st_s);
 	if (etc->buf != NULL)
 		free(etc->buf);
+	if (etc->tmp_s != NULL)
+		free(etc->tmp_s);
 	free(etc);
 }
 
@@ -29,7 +20,7 @@ void	check_newline(t_etc *etc)
 		if (etc->buf[etc->i_buffer] == '\n')
 		{
 			etc->is_there_newline = true;
-			break ;
+			break;
 		}
 		etc->i_buffer++;
 	}
@@ -47,6 +38,7 @@ static char	*initialize_etc(t_etc **etc)
 		return (NULL);
 	}
 	(*etc)->st_s[0] = '\0';
+	(*etc)->tmp_s = NULL;
 	(*etc)->is_there_newline = false;
 	(*etc)->i_st_s = 0;
 	(*etc)->i_tmp_s = 0;

@@ -1,16 +1,5 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line_bonus_utils.c                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: sanbaek <sanbaek@student.42gyeongsan.kr    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/20 19:27:13 by sanbaek           #+#    #+#             */
-/*   Updated: 2024/06/20 19:27:14 by sanbaek          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "get_next_line_bonus.h"
+#include <stdio.h>
 
 char	*join_lines(t_etc *etc)
 {
@@ -62,17 +51,17 @@ void	process_buffer(t_etc *etc, int fd)
 		etc->i_repeat++;
 		etc->read_return = read(fd, etc->buf, BUFFER_SIZE);
 		if (etc->read_return == 0)
-			break ;
+			break;
 		if (etc->read_return == -1)
 		{
 			free_etc(etc);
-			return ;
+			return;
 		}
 		etc->buf[etc->read_return] = '\0';
 		printf("buffer %zu: \"%s\"\n", etc->i_repeat, etc->buf);
 		printf("st_s before join: \"%s\"\n", etc->st_s);
 		if (join_lines(etc) == NULL)
-			return ;
+			return;
 		printf("st_s after join: \"%s\"\n", etc->st_s);
 		printf("-----------------------------------\n");
 		check_newline(etc);

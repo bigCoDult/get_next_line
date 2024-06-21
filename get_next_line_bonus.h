@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: sanbaek <sanbaek@student.42gyeongsan.kr    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/20 19:27:31 by sanbaek           #+#    #+#             */
-/*   Updated: 2024/06/20 19:27:33 by sanbaek          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef GET_NEXT_LINE_BONUS_H
 # define GET_NEXT_LINE_BONUS_H
 
@@ -30,14 +18,10 @@ typedef struct s_etc
 	char	*st_s;
 	char	*buf;
 	char	*tmp_s;
-	char	*result;
-	char	*new_static_line;
 	size_t	i_st_s;
 	size_t	i_tmp_s;
 	size_t	i_buffer;
 	size_t	i_repeat;
-	size_t	len_remaining;
-	size_t	i;
 }	t_etc;
 
 char	*get_next_line_bonus(int fd);
