@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: sanbaek <sanbaek@student.42gyeongsan.kr    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/21 21:04:48 by sanbaek           #+#    #+#             */
-/*   Updated: 2024/06/22 18:45:27 by sanbaek          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <stdio.h>
 #include "get_next_line.h"
 
@@ -21,7 +9,7 @@ char	*get_next_line(int fd)
 		return (NULL);
 	if (etc == NULL)
 	{
-		etc = (t_etc *)malloc(1 * sizeof(t_etc));
+		etc = (t_etc *)malloc(sizeof(t_etc));
 		if (etc == NULL)
 			return (NULL);
 		init_etc(etc);
@@ -30,10 +18,15 @@ char	*get_next_line(int fd)
 	if (etc->buf == NULL)
 	{
 		free_etc(etc);
+		etc = NULL;
 		return (NULL);
 	}
 	if (set_buf(etc, fd) == 0 && etc->st_s[etc->i_st_s] == '\0')
+	{
+		free_etc(etc);
+		etc = NULL;
 		return (NULL);
+	}
 	free(etc->buf);
 	etc->buf = NULL;
 	while (etc->st_s[etc->i_single_s] != '\0' && etc->st_s[etc->i_single_s++] != '\n')
@@ -59,10 +52,14 @@ void	init_etc(t_etc *etc)
 void	free_etc(t_etc *etc)
 {
 	if (etc->st_s != NULL)
+	{
 		free(etc->st_s);
+		etc->st_s = NULL;
+	}
 	if (etc->buf != NULL)
+	{
 		free(etc->buf);
-	if (etc->single_s != NULL)
-		free(etc->single_s);
+		etc->buf = NULL;
+	}
 	free(etc);
 }

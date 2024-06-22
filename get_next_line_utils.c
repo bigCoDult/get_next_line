@@ -1,46 +1,18 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: sanbaek <sanbaek@student.42gyeongsan.kr    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/21 21:04:42 by sanbaek           #+#    #+#             */
-/*   Updated: 2024/06/22 18:45:34 by sanbaek          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "get_next_line.h"
 
 size_t	set_buf(t_etc *etc, int fd)
 {
 	etc->is_there_newline = false;
-	// etc->i_repeat = 0;
 	while (etc->is_there_newline == false)
 	{
-		// etc->i_repeat++;
 		etc->rtn_read = read(fd, etc->buf, BUFFER_SIZE);
 		if (etc->rtn_read == 0)
-		{
-			// free_etc(etc);
-			// free(etc->buf);
-			// free(etc->single_s);
-			// free(etc->st_s);
-			// free(etc);
 			return (0);
-		}
 		if (etc->rtn_read == -1)
-		{
-			free_etc(etc);
 			return (0);
-		}
-		// printf("buffer %zu: \"%s\"\n", etc->i_repeat, etc->buf);
-		// printf("st_s before join: \"%s\"\n", etc->st_s);
 		etc->buf[etc->rtn_read] = '\0';
 		if (join_s(etc) == NULL)
 			return (0);
-		// printf("st_s after join: \"%s\"\n", etc->st_s);
-		// printf("-----------------------------------\n");
 		is_newline(etc);
 	}
 	return (1);
@@ -52,6 +24,7 @@ char	*set_single_s(t_etc *etc)
 	if (etc->single_s == NULL)
 	{
 		free_etc(etc);
+		etc = NULL;
 		return (NULL);
 	}
 	etc->single_s[0] = '\0';
@@ -75,6 +48,7 @@ char	*join_s(t_etc *etc)
 	if (new_static_line == NULL)
 	{
 		free_etc(etc);
+		etc = NULL;
 		return (NULL);
 	}
 	free(etc->st_s);
