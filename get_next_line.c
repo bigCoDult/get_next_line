@@ -6,7 +6,7 @@
 /*   By: sanbaek <sanbaek@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 21:04:48 by sanbaek           #+#    #+#             */
-/*   Updated: 2024/06/21 21:09:31 by sanbaek          ###   ########.fr       */
+/*   Updated: 2024/06/22 18:10:11 by sanbaek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*get_next_line(int fd)
 		etc = (t_etc *)malloc(1 * sizeof(t_etc));
 		if (etc == NULL)
 			return (NULL);
-		initialize_etc(etc);
+		init_etc(etc);
 	}
 	etc->buf = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (etc->buf == NULL)
@@ -32,34 +32,34 @@ char	*get_next_line(int fd)
 		free_etc(etc);
 		return (NULL);
 	}
-	if (!process_buffer(etc, fd) && etc->st_s[etc->i_st_s] == '\0')
+	if (set_buf(etc, fd) == 0 && etc->single_s[etc->i_single_s] == '\0')
 		return (NULL);
 	free(etc->buf);
 	etc->buf = NULL;
-	while (etc->st_s[etc->i_tmp_s] != '\0' && etc->st_s[etc->i_tmp_s++] != '\n')
+	while (etc->single_s[etc->i_tmp_s] != '\0' && etc->single_s[etc->i_tmp_s++] != '\n')
 		;
-	return (allocate_tmp_line(etc));
+	return (set_tmp_s(etc));
 }
 
-void	initialize_etc(t_etc *etc)
+void	init_etc(t_etc *etc)
 {
-	etc->st_s = (char *)malloc(sizeof(char));
-	if (etc->st_s == NULL)
+	etc->single_s = (char *)malloc(sizeof(char));
+	if (etc->single_s == NULL)
 		return ;
-	etc->st_s[0] = '\0';
+	etc->single_s[0] = '\0';
 	etc->is_there_newline = false;
 	etc->tmp_s = NULL;
-	etc->i_st_s = 0;
+	etc->i_single_s = 0;
 	etc->i_tmp_s = 0;
 	etc->i_buf = 0;
-	etc->i_repeat = 0;
+	// etc->i_repeat = 0;
 	return ;
 }
 
 void	free_etc(t_etc *etc)
 {
-	if (etc->st_s != NULL)
-		free(etc->st_s);
+	if (etc->single_s != NULL)
+		free(etc->single_s);
 	if (etc->buf != NULL)
 		free(etc->buf);
 	if (etc->tmp_s != NULL)
@@ -67,7 +67,7 @@ void	free_etc(t_etc *etc)
 	free(etc);
 }
 
-void	check_newline(t_etc *etc)
+void	is_newline(t_etc *etc)
 {
 	etc->i_buf = 0;
 	while (etc->buf[etc->i_buf] != '\0')

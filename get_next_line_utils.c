@@ -6,40 +6,47 @@
 /*   By: sanbaek <sanbaek@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 21:04:42 by sanbaek           #+#    #+#             */
-/*   Updated: 2024/06/21 21:14:50 by sanbaek          ###   ########.fr       */
+/*   Updated: 2024/06/22 18:20:06 by sanbaek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	process_buffer(t_etc *etc, int fd)
+size_t	set_buf(t_etc *etc, int fd)
 {
 	etc->is_there_newline = false;
 	// etc->i_repeat = 0;
 	while (etc->is_there_newline == false)
 	{
 		// etc->i_repeat++;
-		etc->read_return = read(fd, etc->buf, BUFFER_SIZE);
-		if (etc->read_return == 0)
+		etc->rtn_read = read(fd, etc->buf, BUFFER_SIZE);
+		if (etc->rtn_read == 0)
+		{
+			// free_etc(etc);
+			// free(etc->buf);
+			// free(etc->tmp_s);
+			// free(etc->single_s);
+			// free(etc);
 			return (0);
-		if (etc->read_return == -1)
+		}
+		if (etc->rtn_read == -1)
 		{
 			free_etc(etc);
 			return (0);
 		}
-		etc->buf[etc->read_return] = '\0';
 		// printf("buffer %zu: \"%s\"\n", etc->i_repeat, etc->buf);
-		// printf("st_s before join: \"%s\"\n", etc->st_s);
-		if (join_lines(etc) == NULL)
+		// printf("single_s before join: \"%s\"\n", etc->single_s);
+		etc->buf[etc->rtn_read] = '\0';
+		if (join_s(etc) == NULL)
 			return (0);
-		// printf("st_s after join: \"%s\"\n", etc->st_s);
+		// printf("single_s after join: \"%s\"\n", etc->single_s);
 		// printf("-----------------------------------\n");
-		check_newline(etc);
+		is_newline(etc);
 	}
 	return (1);
 }
 
-char	*allocate_tmp_line(t_etc *etc)
+char	*set_tmp_s(t_etc *etc)
 {
 	etc->tmp_s = (char *)malloc((etc->i_tmp_s + 1) * sizeof(char));
 	if (etc->tmp_s == NULL)
@@ -49,33 +56,33 @@ char	*allocate_tmp_line(t_etc *etc)
 	}
 	etc->tmp_s[0] = '\0';
 	etc->i_tmp_s = 0;
-	while (etc->st_s[etc->i_st_s] != '\0' && etc->st_s[etc->i_st_s] != '\n')
-		etc->tmp_s[etc->i_tmp_s++] = etc->st_s[etc->i_st_s++];
-	if (etc->st_s[etc->i_st_s] == '\n')
+	while (etc->single_s[etc->i_single_s] != '\0' && etc->single_s[etc->i_single_s] != '\n')
+		etc->tmp_s[etc->i_tmp_s++] = etc->single_s[etc->i_single_s++];
+	if (etc->single_s[etc->i_single_s] == '\n')
 	{
 		etc->tmp_s[etc->i_tmp_s++] = '\n';
-		etc->i_st_s++;
+		etc->i_single_s++;
 	}
 	etc->tmp_s[etc->i_tmp_s] = '\0';
 	return (etc->tmp_s);
 }
 
-char	*join_lines(t_etc *etc)
+char	*join_s(t_etc *etc)
 {
 	char	*new_static_line;
 
-	new_static_line = ft_join_till_c(etc->st_s, etc->buf, '\0');
+	new_static_line = join_s_till_c(etc->single_s, etc->buf, '\0');
 	if (new_static_line == NULL)
 	{
 		free_etc(etc);
 		return (NULL);
 	}
-	free(etc->st_s);
-	etc->st_s = new_static_line;
-	return (etc->st_s);
+	free(etc->single_s);
+	etc->single_s = new_static_line;
+	return (etc->single_s);
 }
 
-char	*ft_join_till_c(char *s1, char *s2, char c)
+char	*join_s_till_c(char *s1, char *s2, char c)
 {
 	char	*out_s;
 	size_t	i_in_s1;

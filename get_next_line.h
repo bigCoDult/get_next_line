@@ -6,7 +6,7 @@
 /*   By: sanbaek <sanbaek@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 21:05:01 by sanbaek           #+#    #+#             */
-/*   Updated: 2024/06/21 21:05:11 by sanbaek          ###   ########.fr       */
+/*   Updated: 2024/06/22 18:10:53 by sanbaek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,24 +26,24 @@
 typedef struct s_etc
 {
 	bool	is_there_newline;
-	ssize_t	read_return;
-	char	*st_s;
+	ssize_t	rtn_read;
+	char	*single_s;
 	char	*buf;
 	char	*tmp_s;
-	size_t	i_st_s;
+	size_t	i_single_s;
 	size_t	i_tmp_s;
 	size_t	i_buf;
-	size_t	i_repeat;
+	// size_t	i_repeat;
 }	t_etc;
 
 char	*get_next_line(int fd);
-void	initialize_etc(t_etc *etc);
+void	init_etc(t_etc *etc);
 void	free_etc(t_etc *etc);
-void	check_newline(t_etc *etc);
-size_t	process_buffer(t_etc *etc, int fd);
-char	*allocate_tmp_line(t_etc *etc);
-char	*join_lines(t_etc *etc);
-char	*ft_join_till_c(char *s1, char *s2, char c);
+void	is_newline(t_etc *etc);
+size_t	set_buf(t_etc *etc, int fd);
+char	*set_tmp_s(t_etc *etc);
+char	*join_s(t_etc *etc);
+char	*join_s_till_c(char *s1, char *s2, char c);
 size_t	ft_strlen(char *s);
 
 #endif /* GET_NEXT_LINE_H */
