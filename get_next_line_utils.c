@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sanbaek <sanbaek@student.42gyeongsan.kr    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/22 19:30:57 by sanbaek           #+#    #+#             */
+/*   Updated: 2024/06/22 19:33:58 by sanbaek          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
 size_t	set_buf(t_etc *etc, int fd)
@@ -18,26 +30,26 @@ size_t	set_buf(t_etc *etc, int fd)
 	return (1);
 }
 
-char	*set_single_s(t_etc *etc)
+char	*set_one_s(t_etc *etc)
 {
-	etc->single_s = (char *)malloc((etc->i_single_s + 1) * sizeof(char));
-	if (etc->single_s == NULL)
+	etc->one_s = (char *)malloc((etc->i_one_s + 1) * sizeof(char));
+	if (etc->one_s == NULL)
 	{
 		free_etc(etc);
 		etc = NULL;
 		return (NULL);
 	}
-	etc->single_s[0] = '\0';
-	etc->i_single_s = 0;
+	etc->one_s[0] = '\0';
+	etc->i_one_s = 0;
 	while (etc->st_s[etc->i_st_s] != '\0' && etc->st_s[etc->i_st_s] != '\n')
-		etc->single_s[etc->i_single_s++] = etc->st_s[etc->i_st_s++];
+		etc->one_s[etc->i_one_s++] = etc->st_s[etc->i_st_s++];
 	if (etc->st_s[etc->i_st_s] == '\n')
 	{
-		etc->single_s[etc->i_single_s++] = '\n';
+		etc->one_s[etc->i_one_s++] = '\n';
 		etc->i_st_s++;
 	}
-	etc->single_s[etc->i_single_s] = '\0';
-	return (etc->single_s);
+	etc->one_s[etc->i_one_s] = '\0';
+	return (etc->one_s);
 }
 
 char	*join_s(t_etc *etc)
@@ -91,14 +103,4 @@ void	is_newline(t_etc *etc)
 		}
 		etc->i_buf++;
 	}
-}
-
-size_t	ft_strlen(char *s)
-{
-	size_t	length;
-
-	length = 0;
-	while (s && s[length] != '\0')
-		length++;
-	return (length);
 }

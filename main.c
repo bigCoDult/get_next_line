@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sanbaek <sanbaek@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/21 16:04:25 by sanbaek           #+#    #+#             */
-/*   Updated: 2024/06/22 19:07:12 by sanbaek          ###   ########.fr       */
+/*   Created: 2024/06/22 19:30:54 by sanbaek           #+#    #+#             */
+/*   Updated: 2024/06/22 19:34:34 by sanbaek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ char	*get_next_line(int fd);
 
 int	main(void)
 {
-	int	fd1;
-	int	i;
+	int		fd1;
+	int		i;
 	char	*line;
 
 	i = 1;

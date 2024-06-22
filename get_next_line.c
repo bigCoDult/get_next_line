@@ -1,4 +1,15 @@
-#include <stdio.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sanbaek <sanbaek@student.42gyeongsan.kr    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/22 19:30:46 by sanbaek           #+#    #+#             */
+/*   Updated: 2024/06/22 19:34:00 by sanbaek          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
 char	*get_next_line(int fd)
@@ -14,24 +25,31 @@ char	*get_next_line(int fd)
 			return (NULL);
 		init_etc(etc);
 	}
+	if (deal_buf(etc, fd) == 0)
+		return (NULL);
+	while (etc->st_s[etc->i_one_s] != '\0' && etc->st_s[etc->i_one_s++] != '\n')
+		;
+	return (set_one_s(etc));
+}
+
+size_t	deal_buf(t_etc *etc, int fd)
+{
 	etc->buf = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (etc->buf == NULL)
 	{
 		free_etc(etc);
 		etc = NULL;
-		return (NULL);
+		return (0);
 	}
 	if (set_buf(etc, fd) == 0 && etc->st_s[etc->i_st_s] == '\0')
 	{
 		free_etc(etc);
 		etc = NULL;
-		return (NULL);
+		return (0);
 	}
 	free(etc->buf);
 	etc->buf = NULL;
-	while (etc->st_s[etc->i_single_s] != '\0' && etc->st_s[etc->i_single_s++] != '\n')
-		;
-	return (set_single_s(etc));
+	return (1);
 }
 
 void	init_etc(t_etc *etc)
@@ -41,11 +59,10 @@ void	init_etc(t_etc *etc)
 		return ;
 	etc->st_s[0] = '\0';
 	etc->is_there_newline = false;
-	etc->single_s = NULL;
+	etc->one_s = NULL;
 	etc->i_st_s = 0;
-	etc->i_single_s = 0;
+	etc->i_one_s = 0;
 	etc->i_buf = 0;
-	// etc->i_repeat = 0;
 	return ;
 }
 
@@ -62,4 +79,14 @@ void	free_etc(t_etc *etc)
 		etc->buf = NULL;
 	}
 	free(etc);
+}
+
+size_t	ft_strlen(char *s)
+{
+	size_t	length;
+
+	length = 0;
+	while (s && s[length] != '\0')
+		length++;
+	return (length);
 }
