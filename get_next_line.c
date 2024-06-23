@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sanbaek <sanbaek@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/22 19:30:46 by sanbaek           #+#    #+#             */
-/*   Updated: 2024/06/22 19:34:00 by sanbaek          ###   ########.fr       */
+/*   Created: 2024/06/23 14:18:25 by sanbaek           #+#    #+#             */
+/*   Updated: 2024/06/23 14:18:26 by sanbaek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ char	*get_next_line(int fd)
 	}
 	if (deal_buf(etc, fd) == 0)
 		return (NULL);
-	while (etc->st_s[etc->i_one_s] != '\0' && etc->st_s[etc->i_one_s++] != '\n')
-		;
 	return (set_one_s(etc));
 }
 

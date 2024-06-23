@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sanbaek <sanbaek@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/22 19:30:57 by sanbaek           #+#    #+#             */
-/*   Updated: 2024/06/22 19:33:58 by sanbaek          ###   ########.fr       */
+/*   Created: 2024/06/23 14:18:33 by sanbaek           #+#    #+#             */
+/*   Updated: 2024/06/23 14:18:34 by sanbaek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,10 @@ size_t	set_buf(t_etc *etc, int fd)
 
 char	*set_one_s(t_etc *etc)
 {
+	etc->i_one_s = 0;
+	while (etc->st_s[etc->i_st_s + etc->i_one_s] != '\0'
+		&& etc->st_s[etc->i_st_s + etc->i_one_s++] != '\n')
+		;
 	etc->one_s = (char *)malloc((etc->i_one_s + 1) * sizeof(char));
 	if (etc->one_s == NULL)
 	{
@@ -39,7 +43,6 @@ char	*set_one_s(t_etc *etc)
 		etc = NULL;
 		return (NULL);
 	}
-	etc->one_s[0] = '\0';
 	etc->i_one_s = 0;
 	while (etc->st_s[etc->i_st_s] != '\0' && etc->st_s[etc->i_st_s] != '\n')
 		etc->one_s[etc->i_one_s++] = etc->st_s[etc->i_st_s++];
