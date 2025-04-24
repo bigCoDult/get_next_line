@@ -1,4 +1,0 @@
-abCDef
-
-123456
-ABcdEF
